@@ -18,7 +18,7 @@ export const sendNote: express.RequestHandler = async (
   try {
     const { usersIds, noteTitle, noteMessageBody, noteTypeId }: sendNoteDto =
       req.body;
-    usersIds.map((user) => +user);
+    //usersIds.map((user) => +user);
     var files = [];
     var fileKeys = Object.keys(req.files);
     fileKeys.forEach(function (key) {
@@ -80,10 +80,14 @@ export const latestNotes: express.RequestHandler = async (
     const currentDate = new Date();
     const thirtyDaysAgo = new Date();
     const page: number = +req.query.page || 1;
-    const notesTypes = req.body.filter || null;
     const notesPerPage = 10;
     const offset = (page - 1) * notesPerPage;
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const filter = req.query.filter as string || null ;
+    let notesTypes
+    if(filter) {
+       notesTypes = filter.split(",").map((item) => Number(item.trim()));
+    }
 
     const filterednotesQuery = {
       where: {
