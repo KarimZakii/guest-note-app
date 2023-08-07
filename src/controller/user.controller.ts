@@ -165,11 +165,3 @@ export const deleteNote: express.RequestHandler = async (
   }
 };
 
-export const test = async (req, res) => {
-  const user = await User.findOne({
-    attributes: ["email"],
-    where: { id: 1 },
-  });
-
-  console.log(user.dataValues.email);
-};
